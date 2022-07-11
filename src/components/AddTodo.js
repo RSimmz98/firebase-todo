@@ -1,6 +1,7 @@
 import React from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import {Button, Stack, Center} from "@chakra-ui/react"
 
 export default function AddTodo() {
   const [title, setTitle] = React.useState("");
@@ -17,17 +18,15 @@ export default function AddTodo() {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div >
+      <Center >
         <input
           type="text"
           placeholder="Enter todo..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-      </div>
-      <div >
-        <button>Add</button>
-      </div>
+        <Button type="submit" colorScheme="teal">Add</Button>
+      </Center>
     </form>
   );
 }
