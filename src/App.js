@@ -1,13 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {Text, Stack} from '@chakra-ui/react'
+import AddTodo from './components/AddTodo'
+import Title from './components/Title'
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>This is a todo app</h1>
-      </header>
+    <>
+      <div>
+    <Title />
     </div>
+      <div>
+           <AddTodo />
+    </div>
+    </>
   );
 }
 
