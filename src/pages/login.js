@@ -12,8 +12,40 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import {auth} from '../firebase'
+import {useState} from 'react'
+import{signInWithEmailAndPassword,
+       onAuthStateChanged, signOut} from 'firebase/auth'
 
-export default function SimpleCard() {
+export default function Login() {
+
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+
+
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser)
+  })
+   const login = async () => {
+    try{
+    const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail, 
+        loginPassword
+      )
+        console.log(user)
+       } catch (error) {
+      console.log(error.message)
+    }
+  };
+
+  const logout = async () => {
+    await signOut(auth)
+  }
+
+
   return (
     <Flex
       minH={'100vh'}
@@ -35,11 +67,20 @@ export default function SimpleCard() {
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input 
+                type="email"
+                onChange={(event) =>{
+                  setLoginEmail=(event.target.value)
+                  }}
+                   />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input
+                type="password"
+                  onChange={(event) =>{
+                  setLoginPassword=(event.target.value)
+                  }}/>
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -50,6 +91,8 @@ export default function SimpleCard() {
                 <Link color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button
+                type="submit"
+                onClick={login}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
@@ -57,10 +100,15 @@ export default function SimpleCard() {
                 }}>
                 Sign in
               </Button>
+                <div>{user?.email}</div>
+              <div>{user?.password}</div>
                 <Text>
                 Dont have an account?
-                <Link>SignUp</Link>
+           
               </Text>
+                     <Button
+                type="submit"
+                onClick={logout}>signOut</Button>
             </Stack>
           </Stack>
         </Box>

@@ -16,9 +16,22 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {auth} from '../firebase'
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+
+   const register = async () => {
+    try{
+    const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+        console.log(user)
+       } catch (error) {
+      console.log(error.message)
+    }
+  };
 
   return (
     <Flex
@@ -40,29 +53,23 @@ export default function SignupCard() {
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
-          <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
+          <Stack spacing={4}>:white 
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email"
+
+                onChange={(event) => {
+                  setRegisterEmail(event.target.value)
+                }}/>
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input
+                  onChange={(event) => {
+                  setRegisterPassword(event.target.value)
+                }}
+                  type={showPassword ? 'text' : 'password'} />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -76,6 +83,8 @@ export default function SignupCard() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                type="submit"
+                onClick={register}
                 loadingText="Submitting"
                 size="lg"
                 bg={'blue.400'}

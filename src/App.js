@@ -13,6 +13,10 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from './firebase';
+  import SignUp from './pages/signup'
+import Login from './pages/login'
+import { Routes, Route, BrowserRouter} from 'react-router-dom'
+
 
 function App() {
   const [todos, setTodos] = React.useState([]);
@@ -40,14 +44,27 @@ function App() {
   };
   return (
     <div className="App">
-      <BrowserRouter>
-      <div>
+     <BrowserRouter> 
+        <div>
+        <Routes>
+          <Route
+           path="/"
+            element={<SignUp />}
+            />
+        <Route
+           path="/login"
+            element={<Login />}
+            />
+
+        </Routes>
+      </div>
+        <div>
         <Title />
       </div>
       <div>
         <AddTodo />
       </div>
-      <div className="todo_container">
+      <div>
         {todos.map((todo) => (
           <Todo
             key={todo.id}
@@ -58,7 +75,7 @@ function App() {
           />
         ))}
       </div>
-      </BrowserRouter>
+    </BrowserRouter>
     </div>
   );
 }
