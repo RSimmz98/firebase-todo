@@ -12,26 +12,43 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
+  
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 import {auth} from '../firebase'
+import { useAuth } from "../AuthContext"
+import { Link, useNavigate } from "react-router-dom"
 
-export default function SignupCard() {
+export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
+    const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+  const { signup } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useNavigate()
 
-   const register = async () => {
-    try{
-    const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-        console.log(user)
-       } catch (error) {
-      console.log(error.message)
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords do not match")
     }
-  };
+
+    try {
+      setError("")
+      setLoading(true)
+      await signup(emailRef.current.value, passwordRef.current.value)
+      history.push("/")
+    } catch {
+      setError("Failed to create an account")
+    }
+
+    setLoading(false)
+  }  
 
   return (
     <Flex
@@ -57,18 +74,34 @@ export default function SignupCard() {
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input type="email"
-
-                onChange={(event) => {
-                  setRegisterEmail(event.target.value)
-                }}/>
+                ref={emailRef}
+                required
+             />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
-                  onChange={(event) => {
-                  setRegisterPassword(event.target.value)
-                }}
+                 ref={passwordRef} 
+                  required
+                  type={showPassword ? 'text' : 'password'} />
+                <InputRightElement h={'full'}>
+                  <Button
+                    variant={'ghost'}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }>
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+                  <FormControl id="password" isRequired>
+              <FormLabel>Confirm Password</FormLabel>
+              <InputGroup>
+                <Input
+                 ref={passwordConfirmRef} 
+                  required
                   type={showPassword ? 'text' : 'password'} />
                 <InputRightElement h={'full'}>
                   <Button
@@ -84,7 +117,7 @@ export default function SignupCard() {
             <Stack spacing={10} pt={2}>
               <Button
                 type="submit"
-                onClick={register}
+                onClick={handleSubmit}
                 loadingText="Submitting"
                 size="lg"
                 bg={'blue.400'}

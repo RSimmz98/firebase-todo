@@ -6,46 +6,37 @@ import {
   Input,
   Checkbox,
   Stack,
-  Link,
   Button,
   Heading,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {auth} from '../firebase'
-import {useState} from 'react'
-import{signInWithEmailAndPassword,
-       onAuthStateChanged, signOut} from 'firebase/auth'
+import {useState, useRef} from 'react'
+import { useAuth } from "../AuthContext"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Login() {
+   const emailRef = useRef()
+  const passwordRef = useRef()
+  const { login } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useNavigate()
 
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-
-  const [user, setUser] = useState({});
-
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser)
-  })
-   const login = async () => {
-    try{
-    const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail, 
-        loginPassword
-      )
-        console.log(user)
-       } catch (error) {
-      console.log(error.message)
+    try {
+      setError("")
+      setLoading(true)
+      await login(emailRef.current.value, passwordRef.current.value)
+      history.push("/")
+    } catch {
+      setError("Failed to log in")
     }
-  };
 
-  const logout = async () => {
-    await signOut(auth)
-  }
-
-
+    setLoading(false)
+  }   
   return (
     <Flex
       minH={'100vh'}
@@ -69,18 +60,17 @@ export default function Login() {
               <FormLabel>Email address</FormLabel>
               <Input 
                 type="email"
-                onChange={(event) =>{
-                  setLoginEmail=(event.target.value)
-                  }}
+                 ref={emailRef}
+                required
                    />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                  onChange={(event) =>{
-                  setLoginPassword=(event.target.value)
-                  }}/>
+                required
+                ref={passwordRef}
+                />
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -88,11 +78,11 @@ export default function Login() {
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
+               // <Link color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button
                 type="submit"
-                onClick={login}
+                onClick={handleSubmit}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
@@ -100,15 +90,8 @@ export default function Login() {
                 }}>
                 Sign in
               </Button>
-                <div>{user?.email}</div>
-              <div>{user?.password}</div>
-                <Text>
-                Dont have an account?
-           
-              </Text>
-                     <Button
-                type="submit"
-                onClick={logout}>signOut</Button>
+          
+            
             </Stack>
           </Stack>
         </Box>
