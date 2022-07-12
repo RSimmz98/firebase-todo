@@ -1,9 +1,9 @@
 import {Text, Stack} from '@chakra-ui/react'
 import React from 'react';
 import AddTodo from './components/AddTodo'
-import Title from './components/Title'
+import Title from './components/Dashboard'
 import Todo from './components/Todo'
-
+import { AuthProvider } from "./AuthContext"
 import {
   collection,
   query,
@@ -45,10 +45,15 @@ function App() {
   return (
     <div className="App">
      <BrowserRouter> 
+     <AuthProvider>
         <div>
         <Routes>
-          <Route
+        <Route
            path="/"
+            element={<Title />}
+            />
+          <Route
+           path="/signup"
             element={<SignUp />}
             />
         <Route
@@ -75,6 +80,7 @@ function App() {
           />
         ))}
       </div>
+      </AuthProvider>
     </BrowserRouter>
     </div>
   );
