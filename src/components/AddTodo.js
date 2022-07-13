@@ -21,6 +21,7 @@ export default function AddTodo() {
       <Center >
         <input
           type="text"
+          className='border p-3'
           placeholder="Enter todo..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
