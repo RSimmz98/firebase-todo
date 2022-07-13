@@ -17,14 +17,15 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,})
 
   return (
   
-    <Center bg="gray">
-      <Box bg="gray">
+    <Center >
+  
       <input
         style={{ textDecoration: todo.completed && "line-through" }}
         type="text"
         value={todo.title === "" ? newTitle : todo.title}
-        className="list"
         onChange={handleChange}
+        className='border p-4 m-4'
+        
       />
         <button
           id="i"
@@ -48,7 +49,6 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,})
            >
           <DeleteIcon w={4} h={4}/>
         </button>
-      </Box>
       </Center>
      );
 }

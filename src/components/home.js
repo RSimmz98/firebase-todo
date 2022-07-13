@@ -77,10 +77,12 @@ export default function Home(){
         ))}
       </div>
      
-   
-      <button onClick={handleLogout} className='border px-6 py-2 my-4'>
+     <Center> 
+     <button onClick={handleLogout} className='border px-6 py-2 my-4'>
         Logout
       </button>
+     </Center>
+      
       </>
   )
 }
