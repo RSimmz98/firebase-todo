@@ -17,14 +17,14 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,})
 
   return (
   
-    <Center >
+    <Center h={24}  gap={4} >
   
       <input
         style={{ textDecoration: todo.completed && "line-through" }}
         type="text"
         value={todo.title === "" ? newTitle : todo.title}
         onChange={handleChange}
-        className='border p-4 m-4'
+        className='w-64 flex flex-col py-2  border-2 border-blue-500 mt-4'
         
       />
         <button
@@ -32,13 +32,13 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,})
           className="button-complete"
           onClick={() => toggleComplete(todo)}
         >
-          <CheckCircleIcon w={4} h={4} color="teal" />
+          <CheckCircleIcon w={6} h={6} color="green.500" />
         </button>
         <button
           className="button-edit"
           onClick={() => handleEdit(todo, newTitle)}
         >
-          <EditIcon w={4} h={4}/>
+          <EditIcon w={6} h={6}/>
         
         </button>
         <button 
@@ -47,7 +47,7 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,})
           onClick={() => handleDelete(todo.id)}
       
            >
-          <DeleteIcon w={4} h={4}/>
+          <DeleteIcon color="red.500" w={6} h={6}/>
         </button>
       </Center>
      );

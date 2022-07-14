@@ -18,16 +18,18 @@ export default function AddTodo() {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <Center >
+      <Center  gap={2} >
         <input
-          type="text"
-          className='border p-3'
+          type="text" 
+          className="w-80 border-4 border-indigo-200 border-t-indigo-500 h-12  text-md break-all leading-tight text-gray-700"
           placeholder="Enter todo..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Button type="submit" colorScheme="teal">Add</Button>
+        <Button type="submit" variant="outline" size="lg" colorScheme="blue">Add</Button>
       </Center>
     </form>
   );
 }
+
+//className='border p-3
