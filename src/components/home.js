@@ -78,9 +78,9 @@ export default function Home(){
       </div>
      
      <Center> 
-     <button onClick={handleLogout} className='border px-6 py-2 my-4'>
+     <Button onClick={handleLogout} colorScheme="blue" size="lg" type="submit" m={4}>
         Logout
-      </button>
+      </Button>
      </Center>
       
       </>
