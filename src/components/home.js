@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react"
+import React from "react"
 import {Button, Center } from '@chakra-ui/react'
 import AddTodo from '../components/AddTodo'
 import Title from '../components/Title'
@@ -44,7 +44,7 @@ export default function Home(){
       const handleDelete = async (id) => {
         await deleteDoc(doc(db, "todos", id));
       };
-      const { user, logout } = UserAuth();
+      const{ logout } = UserAuth();
       const navigate = useNavigate();
     
       const handleLogout = async () => {
