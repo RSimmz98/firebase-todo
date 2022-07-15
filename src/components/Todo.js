@@ -1,5 +1,5 @@
 import React from "react";
-import {Button,Box,Stack, Center, VStack, HStack} from '@chakra-ui/react'
+import { Center} from '@chakra-ui/react'
 import { CheckCircleIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons'
 
 export default function Todo({ todo, toggleComplete, handleDelete, handleEdit,}) {

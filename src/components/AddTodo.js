@@ -1,7 +1,7 @@
 import React from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import {Button, Stack, Center} from "@chakra-ui/react"
+import {Button,  Center} from "@chakra-ui/react"
 
 export default function AddTodo() {
   const [title, setTitle] = React.useState("");
