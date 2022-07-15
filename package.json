@@ -1,6 +1,9 @@
 {
   "name": "todo-firebase",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.14.0"
+  },
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.4",
