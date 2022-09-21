@@ -10,4 +10,6 @@
 <li> Npm install</li>
 </ul>
 
+##The idea behind this project was to showcase how all the crud operations can be perfomed using firebase
+
 #You ready to go
